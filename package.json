@@ -1,11 +1,15 @@
 {
-  "name": "voicesurvey",
+  "name": "greenwishers-voicesurvey",
   "version": "1.0.0",
-  "description": "implement a twilio tutorial",
+  "description": "implement an IVR for a Greenwishers prototypes",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository" : {
+        "type" : "git",
+        "url" : "https://github.com/funeco-asia/greenwishers-voicesurvey.git"
+    },
   "author": "",
   "license": "ISC",
   "dependencies": {
