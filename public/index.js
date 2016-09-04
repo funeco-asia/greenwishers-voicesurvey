@@ -1,12 +1,12 @@
 $(function() {
 
-    // Chart ages
-    function ages(results) {
-        // Collect age results
+    // Chart your mark
+    function youMark(results) {
+        // Collect you Mark results
         var data = {};
         for (var i = 0, l = results.length; i<l; i++) {
-            var ageResponse = results[i].responses[0];
-            var k = String(ageResponse.answer);
+            var youMarkResponse = results[i].responses[0];
+            var k = String(youMarkResponse.answer);
             if (!data[k]) data[k] = 1;
             else data[k]++;
         }
@@ -18,33 +18,48 @@ $(function() {
             dataSet.push(data[k]);
 
         // Render chart
-        var ctx = document.getElementById('ageChart').getContext('2d');
-        var ageChart = new Chart(ctx).Bar({
+        var ctx = document.getElementById('usefultoyouChart').getContext('2d');
+        var usefultoyouChart = new Chart(ctx).Bar({
             labels: labels,
             datasets: [
                 {
-                    label: 'Ages',
+                    label: 'Mark',
                     data: dataSet
                 }
             ]
         });
     }
 
-    // Chart yes/no responses to lemur question
-    function lemurs(results) {
-        // Collect lemur kicking results
-        var yes = 0, no = 0;
+    // Chart your community mark
+    function yourCommunityMark(results) {
+        // Collect you Mark results
+        var data = {};
         for (var i = 0, l = results.length; i<l; i++) {
-            var lemurResponse = results[i].responses[1];
-            lemurResponse.answer ? yes++ : no++;
+            var yourcommunityMarkResponse = results[i].responses[1];
+            var k = String(yourcommunityMarkResponse.answer);
+            if (!data[k]) data[k] = 1;
+            else data[k]++;
         }
 
-        var ctx = document.getElementById('lemurChart').getContext('2d');
-        var ageChart = new Chart(ctx).Pie([
-            { value: yes, label: 'Yes', color: 'green', highlight: 'gray' },
-            { value: no, label: 'No', color: 'red', highlight: 'gray' }
-        ]);
+        // Assemble for graph
+        var labels = Object.keys(data);
+        var dataSet = [];
+        for (var k in data)
+            dataSet.push(data[k]);
+
+        // Render chart
+        var ctx = document.getElementById('usefultocommunityChart').getContext('2d');
+        var usefultocommunityChart = new Chart(ctx).Bar({
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Mark',
+                    data: dataSet
+                }
+            ]
+        });
     }
+
 
     // poor man's html template for a response table row
     function row(response) {
@@ -61,13 +76,24 @@ $(function() {
         return tpl;
     }
 
-    // add text responses to a table
-    function freeText(results) {
-        var $responses = $('#turtleResponses');
+    // add text responses for obstacles to a table
+    function obstaclesFreeText(results) {
+        var $responses = $('#obstaclesResponses');
         var content = '';
         for (var i = 0, l = results.length; i<l; i++) {
-            var turtleResponse = results[i].responses[2];
-            content += row(turtleResponse);
+            var obstaclesResponse = results[i].responses[2];
+            content += row(obstaclesResponse);
+        }
+        $responses.append(content);
+    }
+
+    // add text responses for helper to a table
+    function helperFreeText(results) {
+        var $responses = $('#helperResponses');
+        var content = '';
+        for (var i = 0, l = results.length; i<l; i++) {
+            var helperResponses = results[i].responses[3];
+            content += row(helperResponses);
         }
         $responses.append(content);
     }
@@ -79,9 +105,10 @@ $(function() {
     }).done(function(data) {
         // Update charts and tables
         $('#total').html(data.results.length);
-        lemurs(data.results);
-        ages(data.results);
-        freeText(data.results);
+        youMark(data.results);
+        yourCommunityMark(data.results);
+        obstaclesFreeText(data.results);
+        helperFreeText(data.results);
     }).fail(function(err) {
         console.log(err);
         alert('failed to load results data :(');

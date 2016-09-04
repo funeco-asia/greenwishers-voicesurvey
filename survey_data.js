@@ -1,15 +1,19 @@
 // Hard coded survey questions
 module.exports = [
     {
-        text: 'Please tell us your age.',
+        text: 'Please give this initiative a mark from 1 (least useful) to 10 (most useful) about how useful is it to you.',
         type: 'number'
     },
     {
-        text: 'Have you ever jump-kicked a lemur?',
-        type: 'boolean'
+        text: 'Please give this initiative a mark from 1 (least useful) to 10 (most useful) about how useful is it to people in your community.',
+        type: 'number'
     },
     {
-        text: 'Who is your favorite Teenage Mutant Ninja Turtle and why?',
+        text: 'Please tell us what you think are the obstacles this initiative will face',
+        type: 'text'
+    },
+    {
+        text: 'Please tell us what you think can help this initiative',
         type: 'text'
     }
 ];
